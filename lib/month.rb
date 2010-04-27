@@ -20,13 +20,19 @@ class Month
 
 	# A new month can be set to a specific +month+ and +year+, or you can call 
 	# Month.new with no arguments to receive the current month.
-	def initialize( year = nil, month = nil )
-		require 'date'
-		if month.nil? || year.nil?
+	def initialize(*args)
+    if args.empty?
+      require 'date'
 			date = Date.today
 			month = date.mon unless month
 			year = date.year unless year
-		end
+    elsif args.size == 2 &&
+          args.first.is_a?(Integer) && args.last.is_a?(Integer)
+      year, month = args.first, args.last
+    else
+      month = args.first.month
+      year = args.first.year
+    end
 		fail "invalid month" if month < 1 || month > 12
 		@month = month
 		@year = year

@@ -37,6 +37,18 @@ class TestMonth < Test::Unit::TestCase
 		assert_equal( date.mon, month.month )
 		assert_equal( date.year, month.year )
 	end
+  
+  def test_init_with_date
+    month = Month.new Date.new(2010,1,1)
+    assert_equal 1, month.month
+    assert_equal 2010, month.year
+  end
+  
+  def test_init_with_datetime
+    month = Month.new Time.utc(2010,1,1)
+    assert_equal 1, month.month
+    assert_equal 2010, month.year
+  end
 	
 	def test_hashable
 		newJan2000 = Month.new( 2000, 1 )
