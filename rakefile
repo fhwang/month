@@ -1,0 +1,44 @@
+=begin
+$: << 'lib'
+require 'month'
+
+@@version_str = Month::Version
+
+def release_tag
+	( uber, major, minor ) = @@version_str.split( '.' ).collect! { |str|
+		str.to_i
+	}
+	"rel-#{ uber }-#{ major }-#{ minor }"
+end
+
+def release_dir_name
+	"month-#{ @@version_str }"
+end
+
+task :export_release do
+	Dir.chdir('../releases')
+	ext = "-d:ext:francis@rubyforge.org:/var/cvs/month"
+	`cvs #{ ext } export -r #{ release_tag } -d #{ release_dir_name } month`
+	`tar zcvf month-#{ @@version_str }.tar.gz #{ release_dir_name }`
+end
+
+task :update_docs do
+	Dir.chdir( 'lib' )
+	`rdoc --op ../docs/`
+end
+=end
+
+require 'hoe'
+$:.unshift 'lib'
+require 'month'
+
+Hoe.new("month", Month::Version) do |p|
+	p.rubyforge_name = "month"
+	p.author = 'Francis Hwang'
+	p.description = p.paragraphs_of( 'README.txt', 0 ).first
+	p.summary = p.paragraphs_of( 'README.txt', 0 ).first
+	p.email = 'sera@fhwang.net'
+	p.url = 'http://month.rubyforge.org/'
+	p.changes = p.paragraphs_of( 'changelog.txt', 0 ).first
+end
+
