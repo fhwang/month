@@ -80,6 +80,17 @@ class TestMonth < Test::Unit::TestCase
 		assert_equal( Date.new( 2000, 12, 31 ), @dec2000.end_date )
 		assert_equal( Date.new( 1999, 2, 28 ), Month.new( 1999, 2 ).end_date )
 	end
+  
+  def test_strftime
+    assert_equal(
+      "Jan, January, Sat Jan  1 00:00:00 2000, 01, 00, 2000",
+      @jan2000.strftime('%b, %B, %c, %m, %y, %Y')
+    )
+    assert_equal(
+      'a A d H I J M p S U W w x X Z % %',
+      @jan2000.strftime('%a %A %d %H %I %J %M %p %S %U %W %w %x %X %Z %% %')
+    )
+  end
 
 	def test_to_s
 		assert_equal 'Jan 2000', @jan2000.to_s

@@ -1,3 +1,5 @@
+require 'date'
+
 # Month represents a specific month in time. With the exception of
 # Month.month_names (which returns a zero-based array), every usage of the
 # month value assumes that 1 equals January and 12 equals December.
@@ -22,7 +24,6 @@ class Month
 	# Month.new with no arguments to receive the current month.
 	def initialize(*args)
     if args.empty?
-      require 'date'
 			date = Date.today
 			month = date.mon unless month
 			year = date.year unless year
@@ -105,6 +106,17 @@ class Month
 	def start_date
 		Date.new( @year, @month, 1 )
 	end
+  
+  def strftime(string)
+    %w(b B c m y Y).each do |code|
+      string = string.gsub(
+        /([^%]|^)%#{code}/, '\1' + start_date.strftime("%#{code}")
+      )
+    end
+    string = string.gsub /%([\w])/, '\1'
+    string = string.gsub /%%/, '%'
+    string
+  end
 	
 	# Returns a string of the format "January 2001".
 	def to_s
