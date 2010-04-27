@@ -50,9 +50,18 @@ class Month
 		Month.new( resultYear, resultMonth )
 	end
 	
-	# Returns a new Month that is +amountToSubtract+ months earlier.
-	def -(amountToSubtract)
-		self + (-amountToSubtract)
+	# Returns a new Month that is +amount_to_subtract+ months earlier.
+	def -(amount_to_subtract)
+    if amount_to_subtract.is_a?(Integer)
+      self + (-amount_to_subtract)
+    else
+      minuend_year = year
+      minuend_month = month
+      subtrahend_year = amount_to_subtract.year
+      subtrahend_month = amount_to_subtract.month
+      ((minuend_year - subtrahend_year) * 12) +
+          minuend_month - subtrahend_month 
+    end
 	end
 	
 	# Compare this Month to another Month.

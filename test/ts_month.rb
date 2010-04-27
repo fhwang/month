@@ -15,6 +15,13 @@ class TestMonth < Test::Unit::TestCase
 		assert_equal( Month.new( 1999, 10 ), @jan2000 - 3 )
 		assert_equal( Month.new( 1999, 10 ), @jan2000 + -3 )
 	end
+  
+  def test_month_subtraction
+    assert_equal 1, @jan2001 - @dec2000
+    assert_equal -1, @dec2000 - @jan2001
+    assert_equal 12, @jan2001 - @jan2000
+    assert_equal -11, @jan2000 - @dec2000
+  end
 	
 	def test_checks_month
 		caught = false
