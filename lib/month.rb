@@ -89,6 +89,11 @@ class Month
 	def hash
 		"#{@year}#{@month}".to_i
 	end
+  
+  def include?(obj)
+    obj = Date.new(obj.year, obj.month, obj.day)
+    start_date <= obj and end_date >= obj
+  end
 
 	# Returns the next Month.
 	def next

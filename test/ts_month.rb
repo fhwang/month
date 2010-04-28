@@ -15,13 +15,6 @@ class TestMonth < Test::Unit::TestCase
 		assert_equal( Month.new( 1999, 10 ), @jan2000 - 3 )
 		assert_equal( Month.new( 1999, 10 ), @jan2000 + -3 )
 	end
-  
-  def test_month_subtraction
-    assert_equal 1, @jan2001 - @dec2000
-    assert_equal -1, @dec2000 - @jan2001
-    assert_equal 12, @jan2001 - @jan2000
-    assert_equal -11, @jan2000 - @dec2000
-  end
 	
 	def test_checks_month
 		caught = false
@@ -45,6 +38,15 @@ class TestMonth < Test::Unit::TestCase
 		assert_equal( date.year, month.year )
 	end
   
+  def test_include?
+    assert @jan2000.include?(Time.utc(2000, 1, 15, 8, 0, 0))
+    assert !@jan2000.include?(Time.utc(1999, 12, 25, 12, 0, 0))
+    assert !@jan2000.include?(Time.utc(2000, 2, 8, 16, 0, 0))
+    assert @jan2000.include?(Date.new(2000, 1, 5))
+    assert !@jan2000.include?(Date.new(1999, 11, 29))
+    assert !@jan2000.include?(Date.new(2000, 3, 6))
+  end
+  
   def test_init_with_date
     month = Month.new Date.new(2010,1,1)
     assert_equal 1, month.month
@@ -66,6 +68,13 @@ class TestMonth < Test::Unit::TestCase
 		normalHash[@jan2000] = 'q'
 		assert_equal 'q', normalHash[newJan2000]
 	end
+  
+  def test_month_subtraction
+    assert_equal 1, @jan2001 - @dec2000
+    assert_equal -1, @dec2000 - @jan2001
+    assert_equal 12, @jan2001 - @jan2000
+    assert_equal -11, @jan2000 - @dec2000
+  end
 
 	def test_prev_next_succ
 		assert_equal( @dec2000, @jan2001.prev )
