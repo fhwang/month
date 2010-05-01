@@ -75,6 +75,12 @@ class TestMonth < Test::Unit::TestCase
     assert_equal 12, @jan2001 - @jan2000
     assert_equal -11, @jan2000 - @dec2000
   end
+  
+  def test_new_utc
+    month = Month.new_utc
+    assert_equal month.year, Time.now.utc.year
+    assert_equal month.month, Time.now.utc.month
+  end
 
 	def test_prev_next_succ
 		assert_equal( @dec2000, @jan2001.prev )
